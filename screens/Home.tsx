@@ -1,4 +1,4 @@
-import {View, StyleSheet} from 'react-native'
+import {View, ScrollView, StyleSheet} from 'react-native'
 import {Text, Searchbar, Button} from 'react-native-paper'
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
@@ -8,15 +8,14 @@ export default function Home(){
     const [search, setSearch] = useState('')
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
             <Text style={styles.header} variant={'headlineLarge'}>Cinemate</Text>
             <View style={styles.inputContainer}>
                 <Searchbar
                     style={styles.searchInput}
                     value={search}
                     onChangeText={text => setSearch(text)}
-                    activeUnderlineColor={COLORS.primary}
-                    selectionColor={COLORS.background}
+                    iconColor={COLORS.primary}
                     placeholder={'Tittle of a movie'}
 
                 />
@@ -29,7 +28,7 @@ export default function Home(){
                     Search
                 </Button>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
