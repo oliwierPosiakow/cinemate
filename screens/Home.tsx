@@ -2,10 +2,16 @@ import {View, ScrollView, StyleSheet} from 'react-native'
 import {Text, Searchbar, Button} from 'react-native-paper'
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useGetPopularQuery} from "../redux/api/apiSlice";
 
 export default function Home(){
     const [search, setSearch] = useState('')
+    const {data, isSuccess} = useGetPopularQuery()
+
+    if(isSuccess){
+        console.log(data)
+    }
 
     return (
         <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
