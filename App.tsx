@@ -8,8 +8,10 @@ import Details from "./screens/Details";
 import React from "react";
 import COLORS from "./const";
 
+import {Provider} from "react-redux";
 import {ApiProvider} from "@reduxjs/toolkit/dist/query/react";
 import {apiSLice} from "./redux/api/apiSlice";
+import {store} from "./redux/store";
 
 const Stack: any = createNativeStackNavigator();
 
@@ -18,14 +20,14 @@ export default function App(): React.JSX.Element {
       <>
           <StatusBar style={'light'}/>
           <SafeAreaView style={styles.container}>
-              <ApiProvider api={apiSLice}>
+              <Provider store={store}>
                   <NavigationContainer>
                       <Stack.Navigator>
                           <Stack.Screen name={"Home"} component={Home} options={{headerShown: false}}/>
                           <Stack.Screen name={"MovieDetails"} component={Details} options={{presentation: 'modal'}}/>
                       </Stack.Navigator>
                   </NavigationContainer>
-              </ApiProvider>
+              </Provider>
           </SafeAreaView>
       </>
   );

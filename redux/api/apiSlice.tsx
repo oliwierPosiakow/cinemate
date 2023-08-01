@@ -1,24 +1,24 @@
-import {Api, createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {EndpointBuilder} from "@reduxjs/toolkit/dist/query/endpointDefinitions";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {OMD_API, OMD_API_KEY} from '@env'
 
 export const apiSLice = createApi({
-    reducerPath: 'api',
+    reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://api.themoviedb.org/3/movie/',
-        prepareHeaders: (headers) => {
-            headers.set('authorization', `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNDY2NWI1NWE0YWVhYTliN2UyNWUxMjM2MWE5ZDNjMiIsInN1YiI6IjY0YzdkZTk2ZWVjNWI1NThlOWUzYmFjNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.LsFjafvK_kYLjYSK2rBiNYeeljrzhSJNg5FsV6qFmXQ'`)
-            return headers
-        },
+        baseUrl: `${OMD_API}`,
+        headers: {
+            accept: 'application/json',
+            Authorization: `${OMD_API_KEY}`
+        }
     }),
     endpoints: (builder) => ({
         getPopular: builder.query({
-            query: () => 'popular'
+            query: () => 'movie/popular?page=1'
         }),
         getMovieTitle: builder.query({
-            query: () => '?query=star%20wars&api_key=04665b55a4aeaa9b7e25e12361a9d3c2'
+            query: () => '?query=star%20wars'
         }),
         getMovieDetails: builder.query({
-            query: () => ''
+            query: () => 'movie/101'
         })
     })
 })

@@ -3,15 +3,14 @@ import {Text, Searchbar, Button} from 'react-native-paper'
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
 import {useEffect, useState} from "react";
-import {useGetPopularQuery} from "../redux/api/apiSlice";
+import {useGetMovieTitleQuery, useGetPopularQuery} from "../redux/api/apiSlice";
+import {OMD_API_KEY} from '@env'
 
 export default function Home(){
     const [search, setSearch] = useState('')
-    const {data, isSuccess} = useGetPopularQuery()
+    const {data} = useGetPopularQuery()
 
-    if(isSuccess){
-        console.log(data)
-    }
+    console.log(data)
 
     return (
         <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
