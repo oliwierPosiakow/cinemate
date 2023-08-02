@@ -15,7 +15,7 @@ export const apiSLice = createApi({
         getPopular: builder.mutation({
             query: () => {
                 return {
-                    url: 'movie/popular?page=1',
+                    url: 'movie/popular',
                     method: 'GET'
                 }
             }

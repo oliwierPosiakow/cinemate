@@ -17,7 +17,7 @@ export default function MoviesOverview(props: {data: any, title: string}) {
                             poster={item.poster_path}
                             id={item.id}
                             title={item.title}
-                            rate={item.vote_average}
+                            popularity={item.popularity}
                             count={item.vote_count}
                     />)
                 }}
@@ -29,8 +29,11 @@ export default function MoviesOverview(props: {data: any, title: string}) {
 }
 
 const styles = StyleSheet.create({
+    container:{
+        flex: 1
+    },
     title:{
         color: COLORS.primary,
-        marginVertical: 20,
+        marginVertical: 10,
     }
 })

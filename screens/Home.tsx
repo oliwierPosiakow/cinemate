@@ -40,7 +40,7 @@ export default function Home(){
                     Search
                 </Button>
             </View>
-            <View>
+            <View style={styles.flatlist}>
                 {data && <MoviesOverview title={'Popular'} data={data}/>}
             </View>
         </View>
@@ -71,6 +71,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderWidth: 0,
         borderRadius: 30,
+    },
+    flatlist:{
+        flex:1,
     }
 
 

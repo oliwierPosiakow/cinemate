@@ -12,9 +12,10 @@ import {Provider} from "react-redux";
 import {ApiProvider} from "@reduxjs/toolkit/dist/query/react";
 import {apiSLice} from "./redux/api/apiSlice";
 import {store} from "./redux/store";
+import { FontAwesome5 } from '@expo/vector-icons';
+import {Button} from 'react-native-paper'
 
 const Stack: any = createNativeStackNavigator();
-
 export default function App(): React.JSX.Element {
   return (
       <>
@@ -27,7 +28,14 @@ export default function App(): React.JSX.Element {
                           headerTintColor: COLORS.primary
                       }}>
                           <Stack.Screen name={"Home"} component={Home} options={{headerShown: false}}/>
-                          <Stack.Screen name={"MovieDetails"} component={Details} options={{presentation: 'modal'}}/>
+                          <Stack.Screen name={"MovieDetails"} component={Details} options={{
+                              presentation: 'modal',
+                              headerRight: () => (
+                                  <Button>
+                                      <FontAwesome5 name="plus" size={20} color={COLORS.primary} />
+                                  </Button>
+                              ),
+                          }}/>
                       </Stack.Navigator>
                   </NavigationContainer>
               </Provider>

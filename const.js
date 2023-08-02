@@ -5,7 +5,8 @@ const COLORS = StyleSheet.create({
     secondary: '#2196F3',
     accent: '#FF4081',
     background: '#121212',
-    text: '#F5F5F5'
+    text: '#F5F5F5',
+    textDarker: '#707070'
 })
 
 export default COLORS;

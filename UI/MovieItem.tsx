@@ -1,9 +1,9 @@
 import {View, Image, StyleSheet, Pressable} from "react-native";
-import {Text}  from 'react-native-paper'
+import {Text, Button}  from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons';
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
-export default function MovieItem(props:{poster: string, id: number, title: string, rate: number, count: number}){
+export default function MovieItem(props:{poster: string, id: number, title: string, popularity: number, count: number}){
 
     const navigator = useNavigation()
     function handlePress() {
@@ -21,18 +21,23 @@ export default function MovieItem(props:{poster: string, id: number, title: stri
             <View style={styles.posterWrapper}>
                 <Image source={{uri: 'https://image.tmdb.org/t/p/original' +  props.poster}} style={styles.poster}/>
             </View>
-            <View>
-                <Text variant={'headlineSmall'} style={[styles.text, styles.title]}>{props.title}</Text>
-            </View>
-            <View style={[styles.iconsWrapper, styles.gap20]} >
-                <View style={styles.iconsWrapper}>
-                    <MaterialIcons name="star-rate" size={24} color={COLORS.text} />
-                    <Text variant={'bodySmall'} style={styles.text}>{props.rate}</Text>
+            <View style={styles.itemRight}>
+                <View>
+                    <Text variant={'headlineSmall'} style={[styles.text, styles.title]}>{props.title}</Text>
                 </View>
-                <View style={styles.iconsWrapper}>
-                    <MaterialIcons name="account-circle" size={24} color={COLORS.text} />
-                    <Text variant={'bodySmall'} style={styles.text}>{props.count}</Text>
+                <View style={[styles.iconsWrapper, styles.gap20]} >
+                    <View style={styles.iconsWrapper}>
+                        <MaterialIcons name="star-rate" size={24} color={COLORS.text} />
+                        <Text variant={'bodySmall'} style={styles.text}>{Math.round(props.popularity)}</Text>
+                    </View>
+                    <View style={styles.iconsWrapper}>
+                        <MaterialIcons name="people-alt" size={24} color={COLORS.text} />
+                        <Text variant={'bodySmall'} style={styles.text}>{props.count}</Text>
+                    </View>
                 </View>
+                <Button mode="outlined" style={styles.movieButton} textColor={COLORS.primary}>
+                    Read more
+                </Button>
             </View>
         </Pressable>
     )
@@ -42,16 +47,23 @@ const styles = StyleSheet.create({
     movieContainer:{
         backgroundColor: '#212121',
         marginVertical: 10,
-        padding: 10,
+        padding: 20,
         borderRadius: 12,
+        flexDirection: "row",
+        justifyContent: "center",
+        gap: 20,
     },
     text:{
         color: COLORS.text,
     },
     poster:{
-        width: '100%',
-        height: 300,
+        width: 100,
+        height: 150,
         resizeMode: 'contain',
+    },
+    itemRight: {
+        flex: 2,
+        justifyContent: "center",
     },
     posterWrapper:{
         overflow: "hidden",
@@ -65,6 +77,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         gap: 5
+    },
+    movieButton:{
+      borderWidth: 1,
+      borderColor: COLORS.primary,
+        marginTop: 20,
     },
     gap20:{
         gap: 20,
