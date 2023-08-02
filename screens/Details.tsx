@@ -7,15 +7,18 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 function Details({route, navigation}) {
     const movieId = route.params?.movieId
-    const [getMovieDetails, {data}] = useGetMovieDetailsMutation()
+    const [getMovieDetails] = useGetMovieDetailsMutation()
     const [movieDetails, setMovieDetails] = useState<any>({})
     const [loading, setLoading] = useState<boolean>(false)
 
-    console.log(movieDetails)
-
     //using function on the first render of a component
     useEffect(() => {
-        getDetails()
+        try{
+            getDetails()
+        }
+        catch (e){
+
+        }
     }, []);
 
     //function which gets the data from an API and controls the loading animation on the screen
@@ -31,7 +34,7 @@ function Details({route, navigation}) {
                 }, 500)
             })
     }
-
+    //if component is still loading show activityIndicator
     if(loading){
         return (
             <View style={styles.loadingView}>
@@ -44,15 +47,21 @@ function Details({route, navigation}) {
         <View style={styles.detailsContainer}>
             <ScrollView>
                 <View style={styles.posterWrapper}>
-                    <Image style={styles.poster} source={{uri: 'https://image.tmdb.org/t/p/original' + movieDetails.poster_path}}/>
+                    <View style={styles.posterContainer}>
+                        <Image style={styles.poster} source={{uri: 'https://image.tmdb.org/t/p/original' + movieDetails.poster_path}}/>
+                    </View>
                 </View>
                 <View style={styles.movieDetails}>
                     <View style={styles.titleWrapper}>
-                        <Text style={styles.lightText} variant={"headlineLarge"}>{movieDetails.lightText}</Text>
+                        <Text style={styles.lightText} variant={"headlineLarge"}>{movieDetails.title}</Text>
                     </View>
                     <View style={styles.infoWrapper}>
                         <FontAwesome5 name="star" size={20} color={COLORS.textDarker} />
                         <Text style={styles.darkText} variant={"bodyMedium"}>{movieDetails.vote_average?.toFixed(2)}</Text>
+                    </View>
+                    <View style={styles.infoWrapper}>
+                        <FontAwesome5 name="clock" size={20} color={COLORS.textDarker} />
+                        <Text style={styles.darkText} variant={"bodyMedium"}>{movieDetails.runtime} min</Text>
                     </View>
                     <View style={styles.infoWrapper}>
                         <FontAwesome5 name="theater-masks" size={20} color={COLORS.textDarker} />
@@ -66,7 +75,7 @@ function Details({route, navigation}) {
                             {movieDetails.production_countries?.map(item => item.name).join(', ')}
                         </Text>
                     </View>
-                    <Text variant={"bodyMedium"} style={styles.lightText}>
+                    <Text variant={"bodyMedium"} style={[styles.lightText, styles.desc]}>
                         {movieDetails.overview}
                     </Text>
                 </View>
@@ -85,6 +94,10 @@ const styles = StyleSheet.create({
     },
     posterWrapper:{
         alignItems: "center"
+    },
+    posterContainer:{
+        overflow: "hidden",
+      borderRadius: 12,
     },
     poster:{
         width: 350,
@@ -109,6 +122,9 @@ const styles = StyleSheet.create({
     },
     darkText:{
         color: COLORS.textDarker,
+    },
+    desc:{
+        marginVertical: 10,
     },
     loadingView:{
         flex: 1,

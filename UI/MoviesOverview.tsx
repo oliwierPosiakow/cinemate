@@ -1,7 +1,8 @@
-import {View, FlatList, ScrollView, StyleSheet} from "react-native";
+import {FlatList, StyleSheet, View} from "react-native";
 import {Text} from 'react-native-paper';
 import MovieItem from "./MovieItem";
 import COLORS from '../const'
+import PageCounter from "./PageCounter";
 
 export default function MoviesOverview(props: {data: any, title: string}) {
     const DATA = props.data.results
@@ -9,7 +10,6 @@ export default function MoviesOverview(props: {data: any, title: string}) {
         <View style={styles.container}>
             <Text variant={'headlineLarge'} style={styles.title}>{props.title}</Text>
             <FlatList
-                style={styles.flatList}
                 data={DATA}
                 renderItem={({item}) => {
                     return (
@@ -23,7 +23,7 @@ export default function MoviesOverview(props: {data: any, title: string}) {
                 }}
                 keyExtractor={item => item.id}
             />
-
+            <PageCounter/>
         </View>
     )
 }

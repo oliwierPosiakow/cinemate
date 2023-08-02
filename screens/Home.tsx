@@ -1,24 +1,33 @@
-import {View, ScrollView, StyleSheet} from 'react-native'
+import {View, ScrollView, StyleSheet, TextInput} from 'react-native'
 import {Text, Searchbar, Button} from 'react-native-paper'
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
 import {useEffect, useState} from "react";
-import {useGetMovieTitleQuery, useGetPopularMutation, useGetPopularQuery} from "../redux/api/apiSlice";
+import {useGetMovieTitleQuery, useGetPopularMutation} from "../redux/api/apiSlice";
 import {OMD_API_KEY} from '@env'
 import MoviesOverview from "../UI/MoviesOverview";
-
+import { FontAwesome5 } from '@expo/vector-icons';
+import {useSelector} from "react-redux";
 export default function Home(){
     const [search, setSearch] = useState('')
-    const [getPopular, {data}] = useGetPopularMutation()
+    const [popular, setPopular] = useState<any>({})
+    const [getPopular] = useGetPopularMutation()
+    const page = useSelector((state) => state.page.value)
 
     useEffect(() => {
         fetchPopular()
-    }, []);
+    }, [page]);
 
     const fetchPopular = async ()=> {
-        await getPopular()
+        try{
+            await getPopular({page})
+                .unwrap()
+                .then(data => {
+                    setPopular(data)
+                })
+        }
+        catch (e) {}
     }
-
     return (
         <View style={styles.container}>
             <Text style={styles.header} variant={'headlineLarge'}>Cinemate</Text>
@@ -37,11 +46,11 @@ export default function Home(){
                     buttonColor={COLORS.primary}
                     textColor={COLORS.text}
                 >
-                    Search
+                    {page}
                 </Button>
             </View>
             <View style={styles.flatlist}>
-                {data && <MoviesOverview title={'Popular'} data={data}/>}
+                <MoviesOverview title={'Popular'} data={popular}/>
             </View>
         </View>
     );
@@ -74,8 +83,5 @@ const styles = StyleSheet.create({
     },
     flatlist:{
         flex:1,
-    }
-
-
-
+    },
 })
