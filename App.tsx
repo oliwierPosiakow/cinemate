@@ -22,7 +22,10 @@ export default function App(): React.JSX.Element {
           <SafeAreaView style={styles.container}>
               <Provider store={store}>
                   <NavigationContainer>
-                      <Stack.Navigator>
+                      <Stack.Navigator screenOptions={{
+                          headerStyle: {backgroundColor: COLORS.background},
+                          headerTintColor: COLORS.primary
+                      }}>
                           <Stack.Screen name={"Home"} component={Home} options={{headerShown: false}}/>
                           <Stack.Screen name={"MovieDetails"} component={Details} options={{presentation: 'modal'}}/>
                       </Stack.Navigator>

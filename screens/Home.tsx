@@ -3,17 +3,24 @@ import {Text, Searchbar, Button} from 'react-native-paper'
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
 import {useEffect, useState} from "react";
-import {useGetMovieTitleQuery, useGetPopularQuery} from "../redux/api/apiSlice";
+import {useGetMovieTitleQuery, useGetPopularMutation, useGetPopularQuery} from "../redux/api/apiSlice";
 import {OMD_API_KEY} from '@env'
+import MoviesOverview from "../UI/MoviesOverview";
 
 export default function Home(){
     const [search, setSearch] = useState('')
-    const {data} = useGetPopularQuery()
+    const [getPopular, {data}] = useGetPopularMutation()
 
-    console.log(data)
+    useEffect(() => {
+        fetchPopular()
+    }, []);
+
+    const fetchPopular = async ()=> {
+        await getPopular()
+    }
 
     return (
-        <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
+        <View style={styles.container}>
             <Text style={styles.header} variant={'headlineLarge'}>Cinemate</Text>
             <View style={styles.inputContainer}>
                 <Searchbar
@@ -33,7 +40,10 @@ export default function Home(){
                     Search
                 </Button>
             </View>
-        </ScrollView>
+            <View>
+                {data && <MoviesOverview title={'Popular'} data={data}/>}
+            </View>
+        </View>
     );
 }
 
