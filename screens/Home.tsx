@@ -1,52 +1,66 @@
-import {Keyboard, StyleSheet, View} from 'react-native'
+import {Keyboard, StyleSheet, TextStyle, View} from 'react-native'
 import {Button, Searchbar, Text} from 'react-native-paper'
 import COLORS from "../const";
 import {useEffect, useState} from "react";
 import {useGetMovieTitleMutation, useGetPopularMutation} from "../redux/api/apiSlice";
 import MoviesOverview from "../UI/MoviesOverview";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setDefault} from "../redux/pageSlice";
 
 export default function Home(){
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState<string>('')
     const [popular, setPopular] = useState<any>({})
-    const [title, setTitle] = useState<any>({})
     const [getPopular] = useGetPopularMutation()
     const [getMovieTitle] = useGetMovieTitleMutation()
+    const [error, setError] = useState<string>()
+    // @ts-ignore
     const page = useSelector((state) => state.page.value)
     const dispatch = useDispatch()
 
     useEffect(() => {
         if(search.length === 0){
-            fetchPopular()
+            void fetchPopular()
         }
         else{
-            fetchTitle()
+            void fetchTitle()
         }
-
     }, [page]);
-
+    //function responsible for fetching popular movies if no title is provided
     const fetchPopular = async ()=> {
         try{
-            getPopular({page})
+            void await getPopular({page})
                 .unwrap()
                 .then(data => {
                     setPopular(data)
                 })
         }
-        catch (e) {}
+        catch (e) {
+            setError(e.message)
+        }
+    }
+    //function responsible for fetching movie details while searching via title
+    const fetchTitle = async () => {
+        try {
+            void await getMovieTitle({search, page})
+                .unwrap()
+                .then(data => {
+                    setPopular(data)
+                })
+        }
+        catch (e) {
+            setError(e.message)
+        }
     }
 
-    const fetchTitle = async () => {
-        if(search.trim() === ''){
-            fetchPopular()
+    const handleSearch = (text: string) => {
+        dispatch(setDefault())
+        Keyboard.dismiss()
+        if(search.trim() === '') {
+            void fetchPopular()
             return
         }
-        await getMovieTitle({search, page})
-            .unwrap()
-            .then(data => {
-                setPopular(data)
-            })
+        setSearch(text)
+        fetchTitle()
     }
 
     return (
@@ -56,37 +70,25 @@ export default function Home(){
                 <Searchbar
                     style={styles.searchInput}
                     value={search}
-                    onChangeText={text => {
-                        if(search.trim() === '') {
-                            fetchPopular()
-                        }
-                        setSearch(text)
-                    }}
-                    iconColor={COLORS.primary}
+                    onChangeText={text => setSearch(text)}
+                    iconColor={COLORS.primary as any}
                     placeholder={'Tittle of a movie'}
-                    onIconPress={() => {
-                        dispatch(setDefault())
-                        Keyboard.dismiss()
-                        fetchTitle()
-                    }}
-
+                    onIconPress={() => handleSearch(search)}
+                    onClearIconPress={() => handleSearch('')}
                 />
                 <Button
                     style={styles.searchButton}
                     mode={'outlined'}
-                    buttonColor={COLORS.primary}
-                    textColor={COLORS.text}
-                    onPress={() => {
-                        dispatch(setDefault())
-                        Keyboard.dismiss()
-                        fetchTitle()
-                    }}
+                    buttonColor={COLORS.primary as any}
+                    textColor={COLORS.text as any}
+                    onPress={() => handleSearch(search)}
                 >
                     Search
                 </Button>
             </View>
             <View style={styles.flatlist}>
                 <MoviesOverview title={'Popular'} data={popular}/>
+                {error && <Text>{error}</Text>}
             </View>
         </View>
     );
@@ -95,11 +97,11 @@ export default function Home(){
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: COLORS.background as TextStyle['color'],
         padding: 20,
     },
     header:{
-        color: COLORS.primary,
+        color: COLORS.primary as TextStyle['color'],
         textAlign: "center",
     },
     inputContainer:{

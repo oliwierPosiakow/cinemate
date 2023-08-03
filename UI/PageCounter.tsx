@@ -7,15 +7,16 @@ import {transparent} from "react-native-paper/lib/typescript/src/styles/themes/v
 
 export default function PageCounter(){
     const dispatch = useDispatch()
+    // @ts-ignore
     const page = useSelector((state) => state.page.value)
     return (
         <View style={styles.counterWrapper}>
             <Button onPress={() => dispatch(decrement())}>
-                <MaterialIcons name="navigate-before" size={20} color={COLORS.text} />
+                <MaterialIcons name="navigate-before" size={20} color={COLORS.text as string} />
             </Button>
             <Text variant={"bodyMedium"} style={styles.pageInput}>{page}</Text>
             <Button onPress={() => dispatch(increment())}>
-                <MaterialIcons name="navigate-next" size={20} color={COLORS.text} />
+                <MaterialIcons name="navigate-next" size={20} color={COLORS.text as string} />
             </Button>
         </View>
     )
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     },
     pageInput:{
         backgroundColor: null,
-        color: COLORS.primary,
+        color: COLORS.primary as string,
         textAlign: "center",
     }
 })

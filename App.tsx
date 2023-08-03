@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import {SafeAreaView, StyleSheet} from 'react-native'
+import {SafeAreaView, StyleSheet, TextStyle} from 'react-native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from "@react-navigation/native";
 import Home from './screens/Home';
@@ -47,6 +47,6 @@ export default function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.background as TextStyle['color'],
   },
 });

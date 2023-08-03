@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Image, ScrollView} from "react-native";
-import {Text, ActivityIndicator} from 'react-native-paper';
+import {Image, ScrollView, StyleSheet, TextStyle, View} from "react-native";
+import {ActivityIndicator, Text} from 'react-native-paper';
 import {useGetMovieDetailsMutation} from "../redux/api/apiSlice";
 import COLORS from "../const";
-import { FontAwesome5 } from '@expo/vector-icons';
+import {FontAwesome5} from '@expo/vector-icons';
+import {Movie} from "../interfaces";
 
 function Details({route, navigation}) {
     const movieId = route.params?.movieId
     const [getMovieDetails] = useGetMovieDetailsMutation()
-    const [movieDetails, setMovieDetails] = useState<any>({})
-    const [loading, setLoading] = useState<boolean>(false)
+    const [movieDetails, setMovieDetails] = useState<any>()
+    const [error, setError] = useState<string>()
+    const [loading, setLoading] = useState<boolean>(true)
 
     //using function on the first render of a component
     useEffect(() => {
@@ -17,7 +19,7 @@ function Details({route, navigation}) {
             getDetails()
         }
         catch (e){
-
+            setError(e.message)
         }
     }, []);
 
@@ -35,10 +37,11 @@ function Details({route, navigation}) {
             })
     }
     //if component is still loading show activityIndicator
-    if(loading){
+    if(loading || error){
         return (
             <View style={styles.loadingView}>
-                <ActivityIndicator size={100} animating={true} color={COLORS.primary}/>
+                <ActivityIndicator size={100} animating={true} color={COLORS.primary as string}/>
+                {error && <Text variant={"bodyLarge"} style={styles.error}>{error}</Text>}
             </View>
         )
     }
@@ -88,7 +91,7 @@ export default Details;
 
 const styles = StyleSheet.create({
     detailsContainer:{
-        backgroundColor: COLORS.background,
+        backgroundColor: COLORS.background as TextStyle['color'],
         flex: 1,
         padding: 20,
     },
@@ -100,8 +103,8 @@ const styles = StyleSheet.create({
       borderRadius: 12,
     },
     poster:{
-        width: 350,
-        height: 400,
+        width: 300,
+        height: 350,
         resizeMode: "contain",
     },
     movieDetails:{
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     lightText:{
-        color: COLORS.text,
+        color: COLORS.text as TextStyle['color'],
     },
     infoWrapper:{
         flexDirection: "row",
@@ -121,15 +124,20 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     darkText:{
-        color: COLORS.textDarker,
+        color: COLORS.textDarker as TextStyle['color'],
     },
     desc:{
         marginVertical: 10,
     },
     loadingView:{
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: COLORS.background as TextStyle['color'],
         justifyContent: "center"
-    }
+    },
+    error:{
+        textAlign: "center",
+        color: COLORS.secondary as string,
+        marginVertical: 10,
 
+    }
 })

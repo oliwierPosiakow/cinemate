@@ -1,9 +1,10 @@
-import {View, Image, StyleSheet, Pressable} from "react-native";
+import {View, Image, StyleSheet, Pressable, TextStyle, OpaqueColorValue} from "react-native";
 import {Text, Button}  from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons';
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
-export default function MovieItem(props:{poster: string, id: number, title: string, popularity: number, count: number}){
+import {Movie} from '../interfaces'
+export default function MovieItem(props:Movie){
 
     const navigator = useNavigation()
     function handlePress() {
@@ -27,15 +28,15 @@ export default function MovieItem(props:{poster: string, id: number, title: stri
                 </View>
                 <View style={[styles.iconsWrapper, styles.gap20]} >
                     <View style={styles.iconsWrapper}>
-                        <MaterialIcons name="star-rate" size={24} color={COLORS.text} />
+                        <MaterialIcons name="star-rate" size={24} color={COLORS.text as string} />
                         <Text variant={'bodySmall'} style={styles.text}>{Math.round(props.popularity)}</Text>
                     </View>
                     <View style={styles.iconsWrapper}>
-                        <MaterialIcons name="people-alt" size={24} color={COLORS.text} />
+                        <MaterialIcons name="people-alt" size={24} color={COLORS.text as string} />
                         <Text variant={'bodySmall'} style={styles.text}>{props.count}</Text>
                     </View>
                 </View>
-                <Button mode="outlined" style={styles.movieButton} textColor={COLORS.primary}>
+                <Button mode="outlined" style={styles.movieButton} textColor={COLORS.primary as string}>
                     Read more
                 </Button>
             </View>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     text:{
-        color: COLORS.text,
+        color: COLORS.text as TextStyle['color'],
     },
     poster:{
         width: 100,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     },
     movieButton:{
       borderWidth: 1,
-      borderColor: COLORS.primary,
+      borderColor: COLORS.primary as TextStyle['color'],
         marginTop: 20,
     },
     gap20:{
