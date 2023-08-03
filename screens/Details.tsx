@@ -9,7 +9,7 @@ import {Movie} from "../interfaces";
 function Details({route, navigation}) {
     const movieId = route.params?.movieId
     const [getMovieDetails] = useGetMovieDetailsMutation()
-    const [movieDetails, setMovieDetails] = useState<any>()
+    const [movieDetails, setMovieDetails] = useState<Movie>()
     const [error, setError] = useState<string>()
     const [loading, setLoading] = useState<boolean>(true)
 
@@ -25,13 +25,12 @@ function Details({route, navigation}) {
 
     //function which gets the data from an API and controls the loading animation on the screen
     const getDetails = async () => {
-        setLoading(true)
         await getMovieDetails({movieId})
             .unwrap()
             .then(data => {
-                setMovieDetails(data)
-                navigation.setOptions({title: data.title})
-                setTimeout(() => {
+                setMovieDetails(data) //setting data gathered from an api
+                navigation.setOptions({title: data.title}) //setting custom header of Stack Screen
+                setTimeout(() => { //custom timeout to show loading indicator
                     setLoading(false)
                 }, 500)
             })

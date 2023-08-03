@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
+
+//pageSlice is created for easy control of current page of results
 interface Page {
     value: number
 }

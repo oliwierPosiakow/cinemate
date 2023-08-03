@@ -12,6 +12,7 @@ export const apiSLice = createApi({
         }
     }),
     endpoints: (builder) => ({
+        //getting list of popular movies with pagination
         getPopular: builder.mutation({
             query: ({page}) => {
                 return {
@@ -20,6 +21,7 @@ export const apiSLice = createApi({
                 }
             }
         }),
+        //getting movie by title and pagination included
         getMovieTitle: builder.mutation({
             query: ({search,page}) => {
                 return {
@@ -28,6 +30,7 @@ export const apiSLice = createApi({
                 }
             }
         }),
+        //getting details about selected movie
         getMovieDetails: builder.mutation({
             query: ({movieId}) => {
                 return {

@@ -31,6 +31,9 @@ export default function Home(){
             void await getPopular({page})
                 .unwrap()
                 .then(data => {
+                    if(data.results.length === 0){
+                        setError('No movies which such title, try different one.')
+                    }
                     setPopular(data)
                 })
         }
@@ -72,7 +75,7 @@ export default function Home(){
                     value={search}
                     onChangeText={text => setSearch(text)}
                     iconColor={COLORS.primary as any}
-                    placeholder={'Tittle of a movie'}
+                    placeholder={'Title of a movie'}
                     onIconPress={() => handleSearch(search)}
                     onClearIconPress={() => handleSearch('')}
                 />
@@ -88,7 +91,6 @@ export default function Home(){
             </View>
             <View style={styles.flatlist}>
                 <MoviesOverview title={'Popular'} data={popular}/>
-                {error && <Text>{error}</Text>}
             </View>
         </View>
     );
