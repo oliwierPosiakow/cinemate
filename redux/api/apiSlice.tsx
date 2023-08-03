@@ -20,8 +20,13 @@ export const apiSLice = createApi({
                 }
             }
         }),
-        getMovieTitle: builder.query({
-            query: () => '?query=star%20wars'
+        getMovieTitle: builder.mutation({
+            query: ({search,page}) => {
+                return {
+                    url: `search/movie?query=${search}&include_adult=false&language=en-US&page=${page}`,
+                    method: 'GET'
+                }
+            }
         }),
         getMovieDetails: builder.mutation({
             query: ({movieId}) => {
@@ -36,6 +41,6 @@ export const apiSLice = createApi({
 
 export const {
     useGetPopularMutation,
-    useGetMovieTitleQuery,
+    useGetMovieTitleMutation,
     useGetMovieDetailsMutation
 } = apiSLice

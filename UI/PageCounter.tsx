@@ -13,7 +13,7 @@ export default function PageCounter(){
             <Button onPress={() => dispatch(decrement())}>
                 <MaterialIcons name="navigate-before" size={20} color={COLORS.text} />
             </Button>
-            <Text variant={"headlineSmall"} style={styles.pageInput}>{page}</Text>
+            <Text variant={"bodyMedium"} style={styles.pageInput}>{page}</Text>
             <Button onPress={() => dispatch(increment())}>
                 <MaterialIcons name="navigate-next" size={20} color={COLORS.text} />
             </Button>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        gap: 10,
+        gap: 5,
         paddingVertical: 5
     },
     pageInput:{

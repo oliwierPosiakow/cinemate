@@ -17,8 +17,11 @@ const pageSlice = createSlice({
         decrement(state) {
             state.value > 1 ? state.value-- : ''
         },
+        setDefault(state){
+            state.value = 1
+        }
     },
 })
 
-export const { increment, decrement} = pageSlice.actions
+export const { increment, decrement, setDefault} = pageSlice.actions
 export default pageSlice.reducer

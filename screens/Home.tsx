@@ -1,26 +1,34 @@
-import {View, ScrollView, StyleSheet, TextInput} from 'react-native'
-import {Text, Searchbar, Button} from 'react-native-paper'
+import {Keyboard, StyleSheet, View} from 'react-native'
+import {Button, Searchbar, Text} from 'react-native-paper'
 import COLORS from "../const";
-import {useNavigation} from "@react-navigation/native";
 import {useEffect, useState} from "react";
-import {useGetMovieTitleQuery, useGetPopularMutation} from "../redux/api/apiSlice";
-import {OMD_API_KEY} from '@env'
+import {useGetMovieTitleMutation, useGetPopularMutation} from "../redux/api/apiSlice";
 import MoviesOverview from "../UI/MoviesOverview";
-import { FontAwesome5 } from '@expo/vector-icons';
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {setDefault} from "../redux/pageSlice";
+
 export default function Home(){
     const [search, setSearch] = useState('')
     const [popular, setPopular] = useState<any>({})
+    const [title, setTitle] = useState<any>({})
     const [getPopular] = useGetPopularMutation()
+    const [getMovieTitle] = useGetMovieTitleMutation()
     const page = useSelector((state) => state.page.value)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchPopular()
+        if(search.length === 0){
+            fetchPopular()
+        }
+        else{
+            fetchTitle()
+        }
+
     }, [page]);
 
     const fetchPopular = async ()=> {
         try{
-            await getPopular({page})
+            getPopular({page})
                 .unwrap()
                 .then(data => {
                     setPopular(data)
@@ -28,6 +36,19 @@ export default function Home(){
         }
         catch (e) {}
     }
+
+    const fetchTitle = async () => {
+        if(search.trim() === ''){
+            fetchPopular()
+            return
+        }
+        await getMovieTitle({search, page})
+            .unwrap()
+            .then(data => {
+                setPopular(data)
+            })
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.header} variant={'headlineLarge'}>Cinemate</Text>
@@ -35,9 +56,19 @@ export default function Home(){
                 <Searchbar
                     style={styles.searchInput}
                     value={search}
-                    onChangeText={text => setSearch(text)}
+                    onChangeText={text => {
+                        if(search.trim() === '') {
+                            fetchPopular()
+                        }
+                        setSearch(text)
+                    }}
                     iconColor={COLORS.primary}
                     placeholder={'Tittle of a movie'}
+                    onIconPress={() => {
+                        dispatch(setDefault())
+                        Keyboard.dismiss()
+                        fetchTitle()
+                    }}
 
                 />
                 <Button
@@ -45,8 +76,13 @@ export default function Home(){
                     mode={'outlined'}
                     buttonColor={COLORS.primary}
                     textColor={COLORS.text}
+                    onPress={() => {
+                        dispatch(setDefault())
+                        Keyboard.dismiss()
+                        fetchTitle()
+                    }}
                 >
-                    {page}
+                    Search
                 </Button>
             </View>
             <View style={styles.flatlist}>
@@ -80,6 +116,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderWidth: 0,
         borderRadius: 30,
+    },
+    pressed:{
+        opacity: .8,
     },
     flatlist:{
         flex:1,
