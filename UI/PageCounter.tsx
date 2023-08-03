@@ -1,9 +1,9 @@
 import {Button, Text} from "react-native-paper";
-import { MaterialIcons } from '@expo/vector-icons';import COLORS from "../const";
-import {TextInput, View, StyleSheet} from "react-native";
+import {MaterialIcons} from '@expo/vector-icons';
+import COLORS from "../const";
+import {StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {decrement, increment} from "../redux/pageSlice";
-import {transparent} from "react-native-paper/lib/typescript/src/styles/themes/v2/colors";
 
 export default function PageCounter(){
     const dispatch = useDispatch()

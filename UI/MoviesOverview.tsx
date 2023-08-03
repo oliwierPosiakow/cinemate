@@ -4,16 +4,16 @@ import MovieItem from "./MovieItem";
 import COLORS from '../const'
 import PageCounter from "./PageCounter";
 import {useRef} from "react";
-import { FontAwesome5 } from '@expo/vector-icons';
+import {FontAwesome5} from '@expo/vector-icons';
 
 export default function MoviesOverview(props: {data: any, title: string}) {
     const DATA = props.data.results
     const flatListRef = useRef()
 
-    if(DATA.length === 0){
+    if (DATA?.length === 0) {
         return (
             <View style={styles.errorContainer}>
-                <FontAwesome5 name="sad-tear" size={48} color={COLORS.secondary as string} />
+                <FontAwesome5 name="sad-tear" size={48} color={COLORS.secondary as string}/>
                 <Text style={styles.error} variant={'bodyLarge'}>No movie with such title, try different one.</Text>
             </View>
         )
@@ -32,7 +32,7 @@ export default function MoviesOverview(props: {data: any, title: string}) {
                             title={item.title}
                             popularity={item.popularity}
                             count={item.vote_count}
-                    />)
+                        />)
                 }}
                 keyExtractor={item => item.id}
             />
@@ -40,7 +40,6 @@ export default function MoviesOverview(props: {data: any, title: string}) {
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     container:{
         flex: 1

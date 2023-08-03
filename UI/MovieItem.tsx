@@ -1,6 +1,6 @@
 import {View, Image, StyleSheet, Pressable, TextStyle, OpaqueColorValue} from "react-native";
 import {Text, Button}  from 'react-native-paper'
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import COLORS from "../const";
 import {useNavigation} from "@react-navigation/native";
 import {Movie} from '../interfaces'
@@ -13,7 +13,6 @@ export default function MovieItem(props:Movie){
             movieId: props.id
         })
     }
-
     return(
         <Pressable
             onPress={handlePress}
@@ -28,7 +27,7 @@ export default function MovieItem(props:Movie){
                 </View>
                 <View style={[styles.iconsWrapper, styles.gap20]} >
                     <View style={styles.iconsWrapper}>
-                        <MaterialIcons name="star-rate" size={24} color={COLORS.text as string} />
+                        <FontAwesome5 name="chart-line" size={24} color={COLORS.text as string} />
                         <Text variant={'bodySmall'} style={styles.text}>{Math.round(props.popularity)}</Text>
                     </View>
                     <View style={styles.iconsWrapper}>

@@ -8,11 +8,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {setDefault} from "../redux/pageSlice";
 
 export default function Home(){
-    const [search, setSearch] = useState<string>('')
-    const [popular, setPopular] = useState<any>({})
-    const [getPopular] = useGetPopularMutation()
-    const [getMovieTitle] = useGetMovieTitleMutation()
-    const [error, setError] = useState<string>()
+    const [search, setSearch] = useState<string>('') //search query
+    const [popular, setPopular] = useState<any>({}) //data about popular movies
+    const [getPopular] = useGetPopularMutation() // RTK Query mutation function
+    const [getMovieTitle] = useGetMovieTitleMutation() // RTK Query mutation function
+    const [error, setError] = useState<string>() // Error handling
     // @ts-ignore
     const page = useSelector((state) => state.page.value)
     const dispatch = useDispatch()
@@ -31,9 +31,6 @@ export default function Home(){
             void await getPopular({page})
                 .unwrap()
                 .then(data => {
-                    if(data.results.length === 0){
-                        setError('No movies which such title, try different one.')
-                    }
                     setPopular(data)
                 })
         }
@@ -58,12 +55,12 @@ export default function Home(){
     const handleSearch = (text: string) => {
         dispatch(setDefault())
         Keyboard.dismiss()
-        if(search.trim() === '') {
+        if(text.trim() === '') {
             void fetchPopular()
             return
         }
         setSearch(text)
-        fetchTitle()
+        void fetchTitle()
     }
 
     return (
@@ -82,8 +79,8 @@ export default function Home(){
                 <Button
                     style={styles.searchButton}
                     mode={'outlined'}
-                    buttonColor={COLORS.primary as any}
-                    textColor={COLORS.text as any}
+                    buttonColor={COLORS.primary as string}
+                    textColor={COLORS.text as string}
                     onPress={() => handleSearch(search)}
                 >
                     Search
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: COLORS.background as TextStyle['color'],
-        padding: 20,
+        padding: 15,
     },
     header:{
         color: COLORS.primary as TextStyle['color'],
