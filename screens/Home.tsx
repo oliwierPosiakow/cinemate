@@ -53,13 +53,14 @@ export default function Home(){
     }
 
     const handleSearch = (text: string) => {
-        dispatch(setDefault())
         Keyboard.dismiss()
         if(text.trim() === '') {
+            dispatch(setDefault())
             void fetchPopular()
             return
         }
         setSearch(text)
+        dispatch(setDefault())
         void fetchTitle()
     }
 

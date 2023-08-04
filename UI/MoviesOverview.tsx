@@ -3,12 +3,12 @@ import {Text} from 'react-native-paper'
 import MovieItem from "./MovieItem";
 import COLORS from '../const'
 import PageCounter from "./PageCounter";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {FontAwesome5} from '@expo/vector-icons';
 
 export default function MoviesOverview(props: {data: any, title: string}) {
     const DATA = props.data.results
-    const flatListRef = useRef()
+    let flatListRef;
 
     if (DATA?.length === 0) {
         return (
@@ -19,11 +19,18 @@ export default function MoviesOverview(props: {data: any, title: string}) {
         )
     }
 
+    //FlatList scrolls to Top on every DATA change (new page, new search query)
+    useEffect(() => {
+        flatListRef.scrollToOffset({offset: 0, animated: true});
+    },[DATA])
+
     return (
         <View style={styles.container}>
             <FlatList
                 data={DATA}
-                ref={flatListRef}
+                ref={(ref) => {
+                    flatListRef = ref
+                }}
                 renderItem={({item}) => {
                     return (
                         <MovieItem
