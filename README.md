@@ -14,7 +14,7 @@ Cinemate is a mobile application developed using React Native, TypeScript, and E
 
 ## Screenshots
 
-![App Screenshot]("https://github.com/oliwierPosiakow/cinemate/blob/main/assets/popular.JPG" width="200" heigth="350")
-![App Screenshot]("https://github.com/oliwierPosiakow/cinemate/blob/main/assets/details.JPG" width="200" heigth="350")
-![App Screenshot]("https://github.com/oliwierPosiakow/cinemate/blob/main/assets/title.JPG" width="200" heigth="350")
+![App Screenshot]("https://github.com/oliwierPosiakow/cinemate/blob/main/assets/popular.JPG")
+![App Screenshot]("https://github.com/oliwierPosiakow/cinemate/blob/main/assets/details.JPG")
+![App Screenshot]("https://github.com/oliwierPosiakow/cinemate/blob/main/assets/title.JPG")
 
